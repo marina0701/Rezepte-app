@@ -5,20 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meine Rezepte</title>
     <style>
-        body {
+        /*body {
             font-family: Arial, sans-serif;
             padding: 20px;
+        }*/
+        body, html {
+            margin: 0;
+            padding:0;
+            font-family: Arial, sens-serif;
         }
+        .hero{
+            background-image: url('Kochbuch.jpg');
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            display: felx;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: rgb(27, 42, 116);
+            text-shadow: 1px 1px 1px rgba (0,0,0,0.7);
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .container{
+            padding: 20px;
+        }
+        #recipe-container{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
         .recipe-card {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 10px;
-            margin:  10px 2.5%;
+            margin:  10px;
             width: 45%;
             cursor: pointer;
+            transition: 0.3 s;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            /*
             display: inline-block;
             vertical-align: top;
-            transition: 0.3s;
+            transition: 0.3s;*/
         }
         .recipe-card:hover {
             background-color: #f0f0f0;
@@ -28,6 +61,7 @@
             padding: 10px;
             border: 1px solid #aaa;
             border-radius: 8px;
+            background-color: #f0f0f0;
         }
         button {
             margin-top: 10px;
@@ -37,18 +71,45 @@
             margin-top: 20px;
             padding-left: 20px;
         }
+        @media (max-width: 600px) {
+            .recipe-card{
+                width: 90%;
+            }
+            .hero{font-size: 1.5rem;
+            height: 35vh;
+            }
+        }
+        
     </style>
 </head>
 <body>
 
-<h1>Meine Rezepte</h1>
-<div id="recipe-container"></div>
 
-<div id="recipe-details"><em>Klicke auf ein Rezept für Details</em></div>
 
-<!-- Neuer Button für die Einkaufsliste -->
-<button onclick="toggleShoppingList()">Einkaufsliste anzeigen / ausblenden</button>
-<ul id="shopping-list" style="display:none;"></ul>
+<div id="start-screen" class="hero" onclick="showRecipes()">
+
+</div>
+
+<!-- Rezeptbereich versteckt -->
+<div id="recipe-section" class="container" style="display:none;">
+  <h1>Meine Rezepte</h1>
+  <div id="recipe-container"></div>
+
+  <div id="recipe-details"><em>Klicke auf ein Rezept für Details</em></div>
+
+  <button onclick="toggleShoppingList()">Einkaufsliste anzeigen / ausblenden</button>
+  <ul id="shopping-list" style="display:none;"></ul>
+</div>
+
+<script>
+function showRecipes() {
+  document.getElementById('start-screen').style.display = 'none'; // Bild ausblenden
+  document.getElementById('recipe-section').style.display = 'block'; // Rezepte einblenden
+}
+
+// Hier kommt dein vorhandenes Rezept-JavaScript hin...
+</script>
+
 
 <script>
     // Rezepte mit Zutaten als Objekte
@@ -92,6 +153,18 @@
 
     },
     {
+      name: "Naan",
+        ingredients: [
+            { name: "Mehl", amount: 250, unit: "g" },
+            { name: "Backpulver, Salz", amount: 1, unit: "TL" },
+            { name: "Joghurt", amount: 30, unit: "g" },
+            { name: "Wasser", amoutn: 125, unit: "ml"}
+        ],
+        instructions: ">Mehl, Salz und Backpulver vermischen. Joghurt und lauwarmes Wasser unterkneten. Teig 1 Stunde ruhen lassen. In 6 Portionen teilen und ausrollen. Fladen dünn mit Butter bestreichen und nochmals ausrollen. In heißer Pfanne jede Seite 1 Minute backen.Hähnchenbrust, Zwiebeln und Knoblauch in Streifen schneiden und in Öl anbraten. Den vorgegarten Brokkoli dazugeben und mit Salz und Pfeffer würzen. Currypulver und Kochsahne mischen und über das Gemüse gießen. 10–20 Minuten lang auf mittlerer Hitze garen lassen."
+
+    },
+   
+    {
       name: "Kartoffelsalat",
         ingredients: [
             { name: "kartoffeln (festkochend)", amount: 1, unit: "kg" },
@@ -121,8 +194,41 @@
             { name: "Sahne", amount: 150, unit: "ml"}
         ],
         instructions: "Hähnchenbrust in Stücke schneiden. Aus Paprikapulver, Limonensaft, Salz, Joghurt, Cayennepfeffer, Garam Masala, Ingwer und Knoblauch eine Marinade herstellen. Das Fleisch mindestens 1 Stunde marinieren lassen. Ofen auf 200°C vorheizen, Fleisch 25 Minuten garen. Zwiebeln klein hacken, in Butter anschwitzen. Passierte Tomaten, Gewürze, Ingwer und Knoblauch dazugeben und 20 Minuten köcheln. Butter, Honig und Sahne unterrühren, 3 Minuten köcheln lassen. Fleisch zur Soße geben, kurz umrühren und servieren."
-    }
+    }, 
+    {
+      name: "Santas Schoko Brötchen",
+        ingredients: [
+            { name: "Butter", amount: 225, unit: "g" },
+            { name: "Zucker", amount: 225, unit: "g" },
+            { name: "Vanillezucker", amount: 1, unit: "Pä" },
+            { name: "Salz", amoutn: 1, unit: "Prise"}, 
+            { name: "Ei(er)", amount: 4, unti:"Stk"}, 
+            { name: "Mehl", amount: 300, unit: "g"},
+            { name: "Kakaopulver", amount: 50, unit: "g"},
+            { name: "zartbitter Kuvertüre", amount: 175, unit: "g"}, 
+            { name: "Süße Sahne", amount: 125, unit: "g"}
+        ],
+        instructions: "Butter, Zucker, Vanillezucker und Salz schaumig rühren. Eier nach und nach unterrühren, bis die Masse dick schaumig ist. Mehl und Kakaopulver mischen und portionsweise unterrühren. Teig in einen Spritzbeutel mit Lochtülle füllen und ca. 3 cm lange Plätzchen auf ein Blech spritzen. Bei ca. 175 °C etwa 13 Minuten backen. Kuvertüre mit Sahne aufkochen, abkühlen lassen. Je zwei Plätzchen mit der Schokocreme zusammensetzen.Hähnchenbrust in Stücke schneiden. Aus Paprikapulver, Limonensaft, Salz, Joghurt, Cayennepfeffer, Garam Masala, Ingwer und Knoblauch eine Marinade herstellen. Das Fleisch mindestens 1 Stunde marinieren lassen. Ofen auf 200°C vorheizen, Fleisch 25 Minuten garen. Zwiebeln klein hacken, in Butter anschwitzen. Passierte Tomaten, Gewürze, Ingwer und Knoblauch dazugeben und 20 Minuten köcheln. Butter, Honig und Sahne unterrühren, 3 Minuten köcheln lassen. Fleisch zur Soße geben, kurz umrühren und servieren."
+    }, 
+
+    {
+      name: "Risotto",
+        ingredients: [
+            { name: "Risottoreis", amount: 250, unit: "g" },
+            { name: "Zwiebel(n)", amount: 1, unit: "Stk" },
+            { name: "Knoblauch", amount: 2, unit: "Zehe(n)" },
+            { name: "Parmensan", amoutn: 50, unit: "g"}, 
+            { name: "Butter", amount: 50, unti:"g"}, 
+            { name: "Weißwein", amount: 100, unit: "ml"},
+            { name: "Gemüsebrühe", amount: 700, unit: "ml"},
+            { name: "Olivenöl", amount: 2, unit: "EL"}, 
+            { name: "Salz, PFeffer", amount: 1, unit: "Prise"}
+        ],
+        instructions: "Zwiebel und Knoblauch fein hacken. Pilze in Scheiben schneiden. Zwiebel und Knoblauch in Olivenöl anschwitzen. Reis dazugeben, kurz mitdünsten, dann mit Weißwein ablöschen. Nach und nach Brühe dazugeben und unter Rühren einkochen lassen. Pilze separat anbraten und untermischen. Butter und Parmesan unterrühren, mit Salz und Pfeffer abschmecken."
+    }, 
     ];
+
+
 
     const container = document.getElementById('recipe-container');
     const details = document.getElementById('recipe-details');
