@@ -1,0 +1,70 @@
+body {
+  font-family: sans-serif;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+.button {
+  display: inline-block;
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #1B2A74;
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.rezept-liste {
+  list-style: none;
+  padding: 0;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.rezept-liste li {
+  background: #fff;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.rezept-liste a {
+  text-decoration: none;
+  color: #1B2A74;
+  font-weight: bold;
+}
+
+.zutaten {
+  list-style: none;
+  padding: 0;
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: left;
+}
+
+.zutaten li {
+  background: #fff;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  margin-right: 1rem;
+}
+
+.back, .zurueck a {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #1B2A74;
+  text-decoration: none;
+}

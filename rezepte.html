@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Rezepte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .recipe-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin:  10px 2.5%;
+            width: 45%;
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: top;
+            transition: 0.3s;
+        }
+        .recipe-card:hover {
+            background-color: #f0f0f0;
+        }
+        #recipe-details {
+            margin-top: 30px;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+        #shopping-list {
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Meine Rezepte</h1>
+<div id="recipe-container"></div>
+
+<div id="recipe-details"><em>Klicke auf ein Rezept für Details</em></div>
+
+<!-- Neuer Button für die Einkaufsliste -->
+<button onclick="toggleShoppingList()">Einkaufsliste anzeigen / ausblenden</button>
+<ul id="shopping-list" style="display:none;"></ul>
+
+<script>
+    // Rezepte mit Zutaten als Objekte
+    const recipes = [
+    {
+        name: "Mama was soll ich Kochen?",
+        ingredients: [
+            { name: "Spaghetti", amount: 200, unit: "g" },
+            { name: "Hackfleisch", amount: 300, unit: "g" },
+            { name: "Tomatensauce", amount: 150, unit: "ml" },
+            { name: "Zwiebel", amount: 1, unit: "Stk" },
+            { name: "Knoblauch", amount: 2, unit: "Zehen" }
+        ],
+        instructions: "Nudeln kochen. Hackfleisch anbraten. Sauce hinzufügen. Alles mischen."
+    },
+
+    {
+        name: "Pfannkuchen",
+        ingredients: [
+            { name: "Mehl", amount: 200, unit: "g" },
+            { name: "Milch", amount: 300, unit: "ml" },
+            { name: "Ei(er)", amount: 2, unit: "Stk" },
+            { name: "Apfel", amoutn: 1, unit: "Stk"}, 
+            { name: "Prise Salz", amount: 1, unti:"Stk."}, 
+            { name: "Butter", amount: 1, unit: "Pfanne einreibestück"}
+        ],
+        instructions: "Mehl, Eier, Milch und Salz zu einem Teig verrühren. In einer Pfanne Butter erhitzen. Teig portionsweise goldbraun ausbacken. Optional mit Marmelade oder Zucker servieren. Als Nachspeise den Apfel genüsslich verzehren."
+    },
+    {
+      name: "Curry mit Hähnchen",
+        ingredients: [
+            { name: "Hähnchenbrust", amount: 200, unit: "g" },
+            { name: "Zwiebeln", amount: 2, unit: "Stk" },
+            { name: "Knoblauch", amount: 2, unit: "Zehe(n)" },
+            { name: "Brokkoli", amoutn: 500, unit: "g"}, 
+            { name: "Currypulver", amount: 2, unti:"EL"}, 
+            { name: "Kochsahne", amount: 200, unit: "ml"},
+            { name: "Öl", amount: 4, unit: "EL"}
+        ],
+        instructions: "Hähnchenbrust, Zwiebeln und Knoblauch in Streifen schneiden und in Öl anbraten. Den vorgegarten Brokkoli dazugeben und mit Salz und Pfeffer würzen. Currypulver und Kochsahne mischen und über das Gemüse gießen. 10–20 Minuten lang auf mittlerer Hitze garen lassen."
+
+    },
+    {
+      name: "Kartoffelsalat",
+        ingredients: [
+            { name: "kartoffeln (festkochend)", amount: 1, unit: "kg" },
+            { name: "Zwiebeln", amount: 1, unit: "Stk" },
+            { name: "Gemüsebrühe", amount: 250, unit: "ml" },
+            { name: "Essig", amoutn: 4, unit: "EL"}, 
+            { name: "Sonnenblumenöl", amount: 3, unti:"EL"}, 
+            { name: "Senf", amount: 1, unit: "TL"},
+            { name: "Salt, Pfeffer", amount: 1, unit: "Prise"},
+            { name: "Zucker", amount: 1, unit: "Prise"}
+        ],
+        instructions:   "Kartoffeln kochen, abkühlen lassen, pellen und in Scheiben schneiden. Zwiebel fein würfeln und in Brühe, Essig, Senf und Zucker aufkochen. Heiß über die Kartoffeln geben und 30 Minuten ziehen lassen. Öl unterheben, mit Salz und Pfeffer abschmecken."
+    },
+    {
+      name: "Butter Chicken",
+        ingredients: [
+            { name: "Hähnchenbrust", amount: 500, unit: "g" },
+            { name: "Paprikapulver, Salz, Cayennepfeffer", amount: 1, unit: "TL" },
+            { name: "Limonensaft, Garam Masala", amount: 1, unit: "EL" },
+            { name: "Joghurt", amoutn: 150, unit: "g"}, 
+            { name: "Knoblauch", amount: 2, unti:"Stk"}, 
+            { name: "Ingwer", amount: 2, unit: "Stk"},
+            { name: "Butter, Honig", amount: 4, unit: "EL"},
+            { name: "Zwiebel(n)", amount: 1, unit: "Stk"}, 
+            { name: "Passierte Tomaten", amount: 500, unit: "g"},
+            { name: "Zimt, Salz, Cayennepfeffer", amount: 1, unit: "TL"},
+            { name: "Sahne", amount: 150, unit: "ml"}
+        ],
+        instructions: "Hähnchenbrust in Stücke schneiden. Aus Paprikapulver, Limonensaft, Salz, Joghurt, Cayennepfeffer, Garam Masala, Ingwer und Knoblauch eine Marinade herstellen. Das Fleisch mindestens 1 Stunde marinieren lassen. Ofen auf 200°C vorheizen, Fleisch 25 Minuten garen. Zwiebeln klein hacken, in Butter anschwitzen. Passierte Tomaten, Gewürze, Ingwer und Knoblauch dazugeben und 20 Minuten köcheln. Butter, Honig und Sahne unterrühren, 3 Minuten köcheln lassen. Fleisch zur Soße geben, kurz umrühren und servieren."
+    }
+    ];
+
+    const container = document.getElementById('recipe-container');
+    const details = document.getElementById('recipe-details');
+    const shoppingListUl = document.getElementById('shopping-list');
+    let shoppingList = [];
+
+    // Dynamisch Karten erstellen
+    let openRecipe = null; // Aktuell geöffnetes Rezept
+
+recipes.forEach(recipe => {
+    const card = document.createElement('div');
+    card.className = 'recipe-card';
+    card.innerHTML = `<h3>${recipe.name}</h3>`;
+
+    card.addEventListener('click', () => {
+        if (openRecipe === recipe) {
+            // Rezept ist bereits offen → zuklappen
+            details.innerHTML = `<em>Klicke auf ein Rezept für Details</em>`;
+            openRecipe = null;
+        } else {
+            // Ein anderes Rezept öffnen
+            showRecipe(recipe);
+            openRecipe = recipe;
+        }
+    });
+
+    container.appendChild(card);
+});
+
+    /*function showRecipe(recipe) {
+        let ingredientList = recipe.ingredients.map((ing, index) => {
+            return `<label>
+                        <input type="checkbox" data-name="${ing.name}" data-amount="${ing.amount}" data-unit="${ing.unit}">
+                        ${ing.amount} ${ing.unit} ${ing.name}
+                    </label><br>`;
+        }).join('');
+
+        details.innerHTML = `
+            <h2>${recipe.name}</h2>
+            <p><strong>Zutaten:</strong></p>
+            ${ingredientList}
+            <p><strong>Zubereitung:</strong> ${recipe.instructions}</p>
+            <button onclick="addToShoppingList()">Zur Einkaufsliste hinzufügen</button>
+        `;
+    }*/
+    function showRecipe(recipe) {
+    let ingredientList = recipe.ingredients.map(ing => {
+        return `<label>
+                    <input type="checkbox" data-name="${ing.name}" data-amount="${ing.amount}" data-unit="${ing.unit}">
+                    ${ing.amount} ${ing.unit} ${ing.name}
+                </label><br>`;
+    }).join('');
+
+    let steps = recipe.instructions.split('. ').filter(step => step.trim() !== '');
+    let stepsHtml = steps.map(step => `<li>${step.trim()}</li>`).join('');
+    let openRecipe = null;
+
+    details.innerHTML = `
+        <h2>${recipe.name}</h2>
+        <p><strong>Zutaten:</strong></p>
+        ${ingredientList}
+        <p><strong>Zubereitung:</strong></p>
+        <ol>${stepsHtml}</ol>
+        <button onclick="addToShoppingList()">Zur Einkaufsliste hinzufügen</button>
+    `;
+}
+
+    function addToShoppingList() {
+        const checkboxes = document.querySelectorAll('#recipe-details input[type="checkbox"]:checked');
+
+        checkboxes.forEach(cb => {
+            const name = cb.dataset.name;
+            const amount = parseFloat(cb.dataset.amount);
+            const unit = cb.dataset.unit;
+
+            const existing = shoppingList.find(item => item.name === name && item.unit === unit);
+            if (existing) {
+                existing.amount += amount; // Menge addieren
+            } else {
+                shoppingList.push({ name, amount, unit });
+            }
+        });
+
+        renderShoppingList();
+    }
+
+    function renderShoppingList() {
+        shoppingListUl.innerHTML = shoppingList.map(item => `<li>${item.amount} ${item.unit} ${item.name}</li>`).join('');
+    }
+
+    function toggleShoppingList() {
+        if (shoppingListUl.style.display === 'none') {
+            shoppingListUl.style.display = 'block';
+        } else {
+            shoppingListUl.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
