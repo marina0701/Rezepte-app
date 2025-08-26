@@ -11,15 +11,20 @@
         }*/
         body, html {
             margin: 0;
-            padding:0;
+            padding:10px;
+            font-size:10px;
+            height: 100%;
+            width: 100%;
             font-family: Arial, sens-serif;
+
         }
         .hero{
             background-image: url('Kochbuch.jpg');
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             width: 100%;
             height: 100vh;
-            display: felx;
+            display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
@@ -42,8 +47,8 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 10px;
-            margin:  10px;
-            width: 45%;
+            margin:  8px;
+            width: 25%;
             cursor: pointer;
             transition: 0.3 s;
             box-sizing: border-box;
@@ -95,9 +100,10 @@
   <h1>Meine Rezepte</h1>
   <div id="recipe-container"></div>
 
-  <div id="recipe-details"><em>Klicke auf ein Rezept für Details</em></div>
+  <div id="recipe-details"><em>     </em></div>
 
   <button onclick="toggleShoppingList()">Einkaufsliste anzeigen / ausblenden</button>
+  <button onclick="copyEinkaufsliste()">Einkaufsliste kopieren</button>
   <ul id="shopping-list" style="display:none;"></ul>
 </div>
 
@@ -326,6 +332,14 @@ recipes.forEach(recipe => {
             shoppingListUl.style.display = 'none';
         }
     }
+    function copyEinkaufsliste() {
+      const liste = document.getElementById("shopping-list");
+      const text = liste.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Einkaufsliste kopiert ✅");
+      });
+    }
+   
 </script>
 
 </body>
