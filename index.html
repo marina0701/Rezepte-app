@@ -40,7 +40,7 @@
         }
         #recipe-container{
             display: flex;
-            gap: 10px;
+            gap: 5px;
             flex-wrap: wrap;
             justify-content: space-around;
         }
@@ -251,7 +251,10 @@ recipes.forEach(recipe => {
     card.className = 'recipe-card';
     card.innerHTML = `<h3>${recipe.name}</h3>`;
 
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (event) => {
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON'){
+        return;
+      }
       showRecipe(recipe, card);
     });
 
