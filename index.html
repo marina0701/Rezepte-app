@@ -39,6 +39,7 @@
         }
         #recipe-container{
             display: flex;
+            gap: 20px;
             flex-wrap: wrap;
             justify-content: space-around;
         }
@@ -250,15 +251,7 @@ recipes.forEach(recipe => {
     card.innerHTML = `<h3>${recipe.name}</h3>`;
 
     card.addEventListener('click', () => {
-        if (openRecipe === recipe) {
-            // Rezept ist bereits offen → zuklappen
-            details.innerHTML = `<em>Klicke auf ein Rezept für Details</em>`;
-            openRecipe = null;
-        } else {
-            // Ein anderes Rezept öffnen
-            showRecipe(recipe);
-            openRecipe = recipe;
-        }
+      showRecipe(recipe, card);
     });
 
     container.appendChild(card);
@@ -280,7 +273,7 @@ recipes.forEach(recipe => {
             <button onclick="addToShoppingList()">Zur Einkaufsliste hinzufügen</button>
         `;
     }*/
-    function showRecipe(recipe) {
+    /*function showRecipe(recipe) {
     let ingredientList = recipe.ingredients.map(ing => {
         return `<label>
                     <input type="checkbox" data-name="${ing.name}" data-amount="${ing.amount}" data-unit="${ing.unit}">
@@ -300,7 +293,38 @@ recipes.forEach(recipe => {
         <ol>${stepsHtml}</ol>
         <button onclick="addToShoppingList()">Zur Einkaufsliste hinzufügen</button>
     `;
-}
+}*/
+
+    function showRecipe(recipe, cardElement) {
+        // Vorherige Details entfernen
+        const alteDetails = cardElement.querySelector('.recipe-details');
+        if (alteDetails) {
+            alteDetails.remove();
+            return; // Bei erneutem Klick schließen
+        }
+
+        let ingredientList = recipe.ingredients.map(ing => {
+            return `<label>
+                        <input type="checkbox" data-name="${ing.name}" data-amount="${ing.amount}" data-unit="${ing.unit}">
+                        ${ing.amount} ${ing.unit} ${ing.name}
+                    </label><br>`;
+        }).join('');
+
+        let steps = recipe.instructions.split('. ').filter(step => step.trim() !== '');
+        let stepsHtml = steps.map(step => `<li>${step.trim()}</li>`).join('');
+
+        const details = document.createElement('div');
+        details.className = 'recipe-details';
+        details.innerHTML = `
+            <h2>${recipe.name}</h2>
+            <p><strong>Zutaten:</strong></p>
+            ${ingredientList}
+            <p><strong>Zubereitung:</strong></p>
+            <ol>${stepsHtml}</ol>
+            <button onclick="addToShoppingList()">Zur Einkaufsliste hinzufügen</button>
+        `;
+        cardElement.appendChild(details);
+    }
 
     function addToShoppingList() {
         const checkboxes = document.querySelectorAll('#recipe-details input[type="checkbox"]:checked');
