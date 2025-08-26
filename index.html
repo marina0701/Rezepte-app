@@ -20,7 +20,7 @@
         }
         .hero{
             background-image: url('Kochbuch.jpg');
-            background-size: contain;
+            background-size:center ;
             background-repeat: no-repeat;
             width: 100%;
             height: 100vh;
@@ -316,7 +316,6 @@ recipes.forEach(recipe => {
         const details = document.createElement('div');
         details.className = 'recipe-details';
         details.innerHTML = `
-            <h2>${recipe.name}</h2>
             <p><strong>Zutaten:</strong></p>
             ${ingredientList}
             <p><strong>Zubereitung:</strong></p>
