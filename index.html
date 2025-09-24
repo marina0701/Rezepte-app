@@ -20,7 +20,7 @@
         }
         .hero{
             background-image: url('Kochbuch.jpg');
-            background-size:contain ;
+            background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             width: 100%;
@@ -82,6 +82,13 @@
             .hero{font-size: 1.5rem;
             height: 35vh;
             }
+        }
+       
+        @media (max-width: 600px) { 
+               .hero {
+                        height: 50vh;
+                        font-size: 1.5rem;
+                    }
         }
         
     </style>
@@ -369,103 +376,6 @@ function copyEinkaufsliste() {
     });
 }
 
-/*
-    const container = document.getElementById('recipe-container');
-    const details = document.getElementById('recipe-details');
-    const shoppingListUl = document.getElementById('shopping-list');
-    let shoppingList = [];
-
-    // Dynamisch Karten erstellen
-    let openRecipe = null; // Aktuell geöffnetes Rezept
-
-recipes.forEach(recipe => {
-    const card = document.createElement('div');
-    card.className = 'recipe-card';
-    card.innerHTML = `<h3>${recipe.name}</h3>`;
-
-    card.addEventListener('click', (event) => {
-      if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON'){
-        return;
-      }
-      showRecipe(recipe, card);
-    });
-
-    container.appendChild(card);
-});
-
-   
-
-    function showRecipe(recipe, cardElement) {
-        // Vorherige Details entfernen
-        const alteDetails = cardElement.querySelector('.recipe-details');
-        if (alteDetails) {
-            alteDetails.remove();
-            return; // Bei erneutem Klick schließen
-        }
-
-        let ingredientList = recipe.ingredients.map(ing => {
-            return `<label>
-                        <input type="checkbox" data-name="${ing.name}" data-amount="${ing.amount}" data-unit="${ing.unit}">
-                        ${ing.amount} ${ing.unit} ${ing.name}
-                    </label><br>`;
-        }).join('');
-
-        let steps = recipe.instructions.split('. ').filter(step => step.trim() !== '');
-        let stepsHtml = steps.map(step => `<li>${step.trim()}</li>`).join('');
-
-        const details = document.createElement('div');
-        details.className = 'recipe-details';
-        details.innerHTML = `
-            <p><strong>Zutaten:</strong></p>
-            ${ingredientList}
-            <p><strong>Zubereitung:</strong></p>
-            <ol>${stepsHtml}</ol>
-            <button onclick="addToShoppingList()">Zur Einkaufsliste hinzufügen</button>
-        `;
-        cardElement.appendChild(details);
-    }
-
-    
-
-    
-    
-    function addToShoppingList() {
-        const checkboxes = document.querySelectorAll('.recipe-details input[type="checkbox"]:checked');
-
-        checkboxes.forEach(cb => {
-            const name = cb.dataset.name;
-            const amount = parseFloat(cb.dataset.amount);
-            const unit = cb.dataset.unit;
-
-            if (!name || isNaN(amount) || !unit) return;
-
-            const existing = shoppingList.find(item => item.name === name && item.unit === unit);
-            if (existing) {
-                existing.amount += amount;
-            } else {
-                shoppingList.push({ name, amount, unit });
-            }
-        });
-
-        renderShoppingList();
-
-        document.getElementById('shopping-list').style.display = 'block';
-    }
-
-    function toggleShoppingList() {
-        if (shoppingListUl.style.display === 'none') {
-            shoppingListUl.style.display = 'block';
-        } else {
-            shoppingListUl.style.display = 'none';
-        }
-    }
-    function copyEinkaufsliste() {
-      const liste = document.getElementById("shopping-list");
-      const text = liste.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Einkaufsliste kopiert ✅");
-      });
-    }*/
    
 </script>
 
